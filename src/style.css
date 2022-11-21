@@ -1,0 +1,38 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Mulish:wght@400;700;800&display=swap');
+
+body{
+  margin-top: 30px;
+  margin-right: 90px;
+  margin-left: 90px;
+}
+
+.font-500{
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 500;
+}
+
+.font-600{
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 600;
+}
+
+.font-700{
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 700;
+}
+
+.font-s-400{
+  font-family: 'Mulish', sans-serif;
+  font-weight: 400;
+}
+
+.font-s-700{
+  font-family: 'Mulish', sans-serif;
+  font-weight: 700;
+}
+
+.font-s-800{
+  font-family: 'Mulish', sans-serif;
+  font-weight: 800;
+}
