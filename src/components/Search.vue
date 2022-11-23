@@ -1,19 +1,50 @@
 <script setup>
-import { reactive } from "vue";
+import { reactive, computed } from "vue";
 const props = defineProps({
-  places: [],
+  places: {
+    type: Array,
+  },
 });
 
 const local = reactive({
   chosenPlace: "Add location",
   classLocation: "font-s-400 unpicked",
 
-  chosenGuests: "Add guests",
   classGuests: "font-s-400 unpicked",
 
   adultNumber: 0,
   childrenNumber: 0,
 });
+
+const emit = defineEmits(["search"])
+
+function onSearch() {
+  const result = {
+    place : local.chosenPlace,
+    people : chosenGuests.value
+  }
+  emit ("search", result)
+}
+
+const chosenGuests = computed(() => {
+  if (local.adultNumber + local.childrenNumber == 1) {
+    local.classGuests = "font-s-400";
+    const a = String(local.adultNumber + local.childrenNumber) + " guest";
+    return a;
+  } else if (local.adultNumber + local.childrenNumber >= 1) {
+    local.classGuests = "font-s-400";
+    const a = String(local.adultNumber + local.childrenNumber) + " guests";
+    return a;
+  } else {
+    local.classGuests = "font-s-400 unpicked";
+    return "Add guests";
+  }
+});
+
+function clearLocation() {
+  local.chosenPlace = "Add location";
+  local.classLocation = "font-s-400 unpicked";
+}
 
 function pickLocation(location) {
   local.chosenPlace = location;
@@ -39,7 +70,7 @@ function removeChildren() {
 </script>
 <template>
   <div>
-    <div>
+    <div class="search">
       <div class="location">
         <div class="location_picked">
           <div class="font-s-800">LOCATION</div>
@@ -60,13 +91,15 @@ function removeChildren() {
               />{{ element }}
             </button>
           </div>
+          <button @click="clearLocation()" class="location_pick font-s-400">Clear location
+          </button>
         </div>
       </div>
       <div class="guests">
         <div class="guests_picked">
           <div class="font-s-800">GUESTS</div>
           <div :class="local.classGuests">
-            {{ local.chosenGuests }}
+            {{ chosenGuests }}
           </div>
         </div>
         <div class="guest_pick">
@@ -94,14 +127,46 @@ function removeChildren() {
           </div>
         </div>
       </div>
-      <div></div>
+      <button class="search_field" @click="onSearch">
+        
+        <img src="../assets/search.svg" alt="&#128269" class="search_icon">
+        <div class="font-s-700">
+          Search
+        </div>
+      </button>
     </div>
   </div>
 </template>
 <style scoped>
+.search {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+.search_field{
+  display:flex;
+  flex-direction: row;
+  justify-content:space-between;
+  align-items: center;
+  gap: 5px;
+  background-color: #EB5757;
+  color: white;
+  border: none;
+  border-radius: 16px;
+  height: 62px;
+  padding: 12px 25px 12px 25px;
+}
+.search_field:hover{
+  cursor: pointer;
+}
+.search_icon{
+  height: 17px;
+}
+
 .location {
   display: flex;
   flex-direction: column;
+  width: 100%;
 }
 .location_picked {
   display: flex;
@@ -140,6 +205,7 @@ function removeChildren() {
 .guests {
   display: flex;
   flex-direction: column;
+  width:100%;
 }
 .guests_picked {
   display: flex;

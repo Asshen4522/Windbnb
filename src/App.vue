@@ -1,7 +1,7 @@
 <script setup>
 // This starter template is using Vue 3 <script setup> SFCs
 // Check out https://vuejs.org/api/sfc-script-setup.html#script-setup
-import Zagolovok from "./components/Zagolovok.vue";
+import Header from "./components/Header.vue";
 import Card from "./components/Card.vue";
 import Search from "./components/Search.vue";
 import { reactive } from "vue";
@@ -9,7 +9,7 @@ import styles from "./style.css";
 
 const information = reactive({
   place: "Add location",
-  people: "Add people",
+  people: "Add guests",
   cards: [
     {
       city: "Helsinki",
@@ -194,16 +194,37 @@ function onLaunch() {
   });
 }
 
+function onSearch(datuum) {
+  information.place = datuum.place;
+  information.people = datuum.people;
+}
+
+function condition(card) {
+  if (information.place != "Add location") {
+    let a = information.place.split(".");
+    if (!(card.city == a[0] && card.country == a[1])) {
+      return false;
+    }
+  }
+  if (information.people != "Add guests") {
+    let a = information.people.split(" ");
+    if (!(card.maxGuests >= a[0])) {
+      return false;
+    }
+  }
+  return true;
+}
+
 onLaunch();
 </script>
 
 <template>
-  <Search :places="information.locationVar" />
-  <Zagolovok :place="information.place" :people="information.people" />
+  <Search @search="onSearch" :places="information.locationVar" />
+  <Header :place="information.place" :people="information.people" />
   <div class="card-block">
-    <div v-for="card in information.cards">
-      <Card :information="card" />
-    </div>
+    <template v-for="card in information.cards">
+      <Card v-if="condition(card)" :information="card" />
+    </template>
   </div>
 </template>
 

@@ -1,8 +1,25 @@
 <script setup>
+import { computed } from "vue";
 const props = defineProps({
   place: "",
   people: "",
 });
+
+const classPlace = computed(() => {
+  if (props.place == "Add location") {
+    return "button-element font-s-400 unpicked"
+  } else{
+    return "button-element font-s-400"
+  }
+})
+const classPeople = computed(() => {
+  if (props.people == "Add guests") {
+    return "button-element font-s-400 unpicked"
+  } else{
+    return "button-element font-s-400"
+  }
+})
+
 </script>
 
 <template>
@@ -11,8 +28,8 @@ const props = defineProps({
       <img src="../assets/logo.png" alt="windbnb" />
     </div>
     <button class="header-button">
-      <div class="button-element font-s-400">{{ props.place }}</div>
-      <div class="button-element font-s-400">{{ props.people }}</div>
+      <div :class="classPlace">{{ props.place }}</div>
+      <div :class="classPeople">{{ props.people }}</div>
       <div class="button-element"><img src="../assets/search.svg" alt="&#128269" class="icon"></div>
     </button>
   </div>
@@ -49,6 +66,8 @@ const props = defineProps({
   display: flex;
   justify-content: center;
   text-align: center;
+}
+.unpicked{
   color: #BDBDBD;
 }
 .icon{
