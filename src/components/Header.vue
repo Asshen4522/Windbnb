@@ -5,6 +5,8 @@ const props = defineProps({
   people: "",
 });
 
+const emit = defineEmits(["searchOn"])
+
 const classPlace = computed(() => {
   if (props.place == "Add location") {
     return "button-element font-s-400 unpicked"
@@ -20,6 +22,10 @@ const classPeople = computed(() => {
   }
 })
 
+function turnSearchOn() {
+  emit("searchOn")
+}
+
 </script>
 
 <template>
@@ -27,7 +33,7 @@ const classPeople = computed(() => {
     <div class="logo">
       <img src="../assets/logo.png" alt="windbnb" />
     </div>
-    <button class="header-button">
+    <button class="header-button" @click="turnSearchOn()">
       <div :class="classPlace">{{ props.place }}</div>
       <div :class="classPeople">{{ props.people }}</div>
       <div class="button-element"><img src="../assets/search.svg" alt="&#128269" class="icon"></div>

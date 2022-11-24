@@ -135,13 +135,18 @@ function removeChildren() {
         </div>
       </button>
     </div>
+    <div class="search_cover">
+
+    </div>
   </div>
 </template>
 <style scoped>
 .search {
+  padding: 90px 90px 0 90px;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+  background-color: white;
 }
 .search_field{
   display:flex;
@@ -161,6 +166,13 @@ function removeChildren() {
 }
 .search_icon{
   height: 17px;
+}
+.search_cover{
+  width:100%;
+  height:100vh;
+  background-color: #4F4F4F;
+  opacity: 0.4;
+
 }
 
 .location {

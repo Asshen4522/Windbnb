@@ -181,6 +181,7 @@ const information = reactive({
     },
   ],
   locationVar: [],
+  search: false,
 });
 
 function onLaunch() {
@@ -197,6 +198,8 @@ function onLaunch() {
 function onSearch(datuum) {
   information.place = datuum.place;
   information.people = datuum.people;
+  document.querySelector("body").classList.remove("overflow");
+  information.search = false;
 }
 
 function condition(card) {
@@ -215,20 +218,41 @@ function condition(card) {
   return true;
 }
 
+function searchOn(params) {
+  document.querySelector("body").classList.add("overflow");
+  information.search = true;
+}
+
 onLaunch();
 </script>
 
 <template>
-  <Search @search="onSearch" :places="information.locationVar" />
-  <Header :place="information.place" :people="information.people" />
-  <div class="card-block">
-    <template v-for="card in information.cards">
-      <Card v-if="condition(card)" :information="card" />
-    </template>
+  <Search
+    v-show="information.search"
+    @search="onSearch"
+    :places="information.locationVar"
+    class="cover"
+  />
+  <div class="container">
+    <Header
+      :place="information.place"
+      :people="information.people"
+      @searchOn="searchOn"
+    />
+    <div class="card-block">
+      <template v-for="card in information.cards">
+        <Card v-if="condition(card)" :information="card" />
+      </template>
+    </div>
   </div>
 </template>
 
 <style scoped>
+.cover {
+  position: absolute;
+  width: 100%;
+}
+
 .card-block {
   margin-top: 60px;
   display: grid;
